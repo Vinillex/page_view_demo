@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:model_viewer/model_viewer.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -54,89 +55,12 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text('Flutter Demo Home Page Sample'),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: NotificationListener(
-              onNotification: (notification) {
-                if (notification is UserScrollNotification) {
-                  if (notification.direction != ScrollDirection.idle) {
-                    print('scrolling');
-                    (_bottomController.position
-                            as ScrollPositionWithSingleContext)
-                        .goIdle();
-                    _isTopScroll = true;
-                    _isDownScroll = false;
-                  } else {
-                    _isTopScroll = false;
-                  }
-                }
-                return false;
-              },
-              child: PageView(
-                controller: _topController,
-                padEnds: true,
-                scrollDirection: Axis.horizontal,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    color: Colors.blue,
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    color: Colors.green,
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    color: Colors.yellow,
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Expanded(
-            child: NotificationListener(
-              onNotification: (notification) {
-                if (notification is UserScrollNotification) {
-                  if (notification.direction != ScrollDirection.idle) {
-                    print('scrolling');
-                    (_topController.position
-                            as ScrollPositionWithSingleContext)
-                        .goIdle();
-                    _isTopScroll = false;
-                    _isDownScroll = true;
-                  } else {
-                    _isDownScroll = false;
-                  }
-                }
-                return false;
-              },
-              child: PageView(
-                controller: _bottomController,
-                padEnds: true,
-                scrollDirection: Axis.horizontal,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    color: Colors.blue,
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    color: Colors.green,
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    color: Colors.yellow,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
+      body: ModelViewer(
+        src: 'assets/cube.glb',
+        alt: "A 3D model of an astronaut",
+        ar: true,
+        autoRotate: true,
+        cameraControls: true,
       ),
     );
   }
